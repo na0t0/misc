@@ -1,0 +1,15 @@
+curl -H "Authorization: Bearer 419c346ee95a0e185a0f276084944c8a " -d "{\"model\": [ [0,0,0,0,1], [0,1,0,0,-1] ]}" https://annealing-cloud.com/api/v1/solve
+
+curl -H "Authorization: Bearer 419c346ee95a0e185a0f276084944c8a " -d "{\"model\": [ [0,0,0,0,1], [0,1,0,0,-1] ]}" https://annealing-cloud.com/api/v1/solve
+{"status":0,
+"result":{"energies":[-2.0],
+"execution_time":14710566,
+"spins":[[[0,0,-1],[0,1,-1]]]},
+"job_id":"bd0e2ad9-db0f-4add-9bd1-b30953ad47c5"}
+
+
+model
+modelパラメータにはイジングモデルの頂点、または相互作用を表現する要素数5の整数値配列[x0, y0, x1, y1, p]を複数並べた形で設定します。指定の順番は計算結果に影響しません。
+x, yはそれぞれイジングモデル上の座標(x軸、y軸)を表現したものになり、pは係数を表します。
+イジングモデルの頂点=1次の項(磁場)を表す場合はx0 == x1, y0 == y1の形で設定し、2頂点の相互作用を表す場合はx0, y0とx1, y1が隣接するよう設定してください。
+隣接の要件として上下左右および斜めを許容します。隣接しない2頂点の座標指定が含まれる場合、エラーとなります。
