@@ -1,0 +1,25 @@
+# UI Automationのアセンブリを読み込む
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Automation
+
+
+# Chromeのパス
+$chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+
+# Yahoo! JapanのURL
+$url = "https://www.yahoo.co.jp/"
+
+# Chromeを起動し、Yahoo! Japanのページを開く
+& $chromePath $url
+
+# Yahoo! Japanのページが読み込まれるまで待つ
+Start-Sleep -Seconds 5
+
+# Yahoo! Japanのページを取得する
+$yahooPage = Get-Process | Where-Object {$_.MainWindowTitle -like "*Yahoo!*"}
+
+# 「トラベル」のハイパーリンクを探す
+$link = $yahooPage | Get-UIAControl -Name "トラベル"
+
+# ハイパーリンクをクリックする
+$link.DoClick()
