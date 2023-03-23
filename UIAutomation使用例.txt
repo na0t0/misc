@@ -1,0 +1,227 @@
+Naoto Kuwabara
+Chromeを開きGoogle検索で「ChatGTP」を検索するPowershellスクリプトを作ってください。
+以下は、Powershellを使用してChromeを開き、Google検索で「ChatGTP」というキーワードを検索するスクリプトです。
+
+powershell
+Copy code
+# Chromeのパス
+$chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+
+# Google検索のURL
+$searchUrl = "https://www.google.com/search?q="
+
+# 検索キーワード
+$searchKeyword = "ChatGTP"
+
+# Chromeを起動し、Google検索でChatGTPを検索する
+& $chromePath $searchUrl$searchKeyword
+このスクリプトを実行すると、Chromeが起動し、Google検索で「ChatGTP」というキーワードが自動的に検索されます。
+
+
+
+
+Naoto Kuwabara
+UI Automationを使って、Chromeで https://www.yahoo.co.jp/ を開き「トラベル」のハイパーリンクをクリックするPowershellスクリプトを作ってください。
+以下は、Powershellを使用してChromeを開き、Yahoo! Japanのトップページを開き、UI Automationを使用して「トラベル」のハイパーリンクをクリックするスクリプトです。
+
+powershell
+Copy code
+# UI Automationのアセンブリを読み込む
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Automation
+
+# Chromeのパス
+$chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+
+# Yahoo! JapanのURL
+$url = "https://www.yahoo.co.jp/"
+
+# Chromeを起動し、Yahoo! Japanのページを開く
+& $chromePath $url
+
+# Yahoo! Japanのページが読み込まれるまで待つ
+Start-Sleep -Seconds 5
+
+# Yahoo! Japanのページを取得する
+$yahooPage = Get-Process | Where-Object {$_.MainWindowTitle -like "*Yahoo!*"}
+
+# 「トラベル」のハイパーリンクを探す
+$link = $yahooPage | Get-UIAControl -Name "トラベル"
+
+# ハイパーリンクをクリックする
+$link.DoClick()
+このスクリプトを実行すると、Chromeが起動し、Yahoo! Japanのトップページが開きます。そして、5秒間待ってから、「トラベル」のハイパーリンクが自動的にクリックされます。なお、このスクリプトを実行するには、UI Automationのアセンブリが必要です。Add-Typeコマンドレットを使用して、アセンブリを読み込むことができます。
+
+
+
+
+Naoto Kuwabara
+UIAutomation を使った具体的でソースコードがある使用例を5個教えてください
+UI Automationは、Windowsアプリケーションの自動化に使用されるAPIで、GUIのコントロールを操作することができます。以下は、UI Automationを使用した具体的な使用例です。
+
+メモ帳のウィンドウを開き、テキストを書き込む
+powershell
+Copy code
+# UI Automationのアセンブリを読み込む
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Automation
+
+# メモ帳を起動する
+Start-Process notepad
+
+# メモ帳のウィンドウが開くまで待つ
+Start-Sleep -Seconds 2
+
+# メモ帳のウィンドウを取得する
+$notepad = Get-Process | Where-Object {$_.MainWindowTitle -like "*Notepad*"}
+
+# メモ帳のテキストボックスを取得する
+$textbox = $notepad | Get-UIAControl -Name "テキスト入力エリア"
+
+# テキストを入力する
+$textbox.ValuePattern.SetValue("Hello, world!")
+
+# メモ帳を閉じる
+$notepad.CloseMainWindow()
+ファイルのダイアログボックスでファイルを選択する
+powershell
+Copy code
+# UI Automationのアセンブリを読み込む
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Automation
+
+# メモ帳を起動する
+Start-Process notepad
+
+# メモ帳のウィンドウが開くまで待つ
+Start-Sleep -Seconds 2
+
+# メモ帳の「ファイル」メニューをクリックする
+$notepad = Get-Process | Where-Object {$_.MainWindowTitle -like "*Notepad*"}
+$fileMenu = $notepad | Get-UIAControl -Name "ファイル"
+$fileMenu.DoClick()
+
+# ファイルのダイアログボックスが表示されるまで待つ
+Start-Sleep -Seconds 2
+
+# ファイルのダイアログボックスを取得する
+$fileDialog = Get-UIAWindow -Name "開く"
+
+# ファイル名を入力する
+$fileTextbox = $fileDialog | Get-UIAControl -Name "ファイル名:"
+$fileTextbox.ValuePattern.SetValue("C:\test.txt")
+
+# ダイアログボックスのOKボタンをクリックする
+$okButton = $fileDialog | Get-UIAControl -Name "開く(&O)"
+$okButton.DoClick()
+
+# メモ帳を閉じる
+$notepad.CloseMainWindow()
+プログラムを起動し、パラメータを渡す
+powershell
+Copy code
+# UI Automationのアセンブリを読み込む
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Automation
+
+# コマンドプロンプトを起動する
+Start-Process cmd
+
+# コマンドプロンプトのウィンドウが開く
+
+
+
+Naoto Kuwabara
+続けてください
+コマンドプロンプトのウィンドウが開くまで待つ
+Start-Sleep -Seconds 2
+
+コマンドプロンプトのウィンドウを取得する
+$cmd = Get-Process | Where-Object {$_.MainWindowTitle -like "コマンド プロンプト"}
+
+パラメータを渡してプログラムを起動する
+$program = "C:\Program Files\MyApp\MyProgram.exe"
+$parameter = "-input C:\input.txt -output C:\output.txt"
+$cmd.StandardInput.WriteLine("$program $parameter")
+
+コマンドプロンプトを閉じる
+$cmd.CloseMainWindow()
+
+bash
+Copy code
+
+4. エクスプローラーでファイルを検索する
+
+```powershell
+# UI Automationのアセンブリを読み込む
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Automation
+
+# エクスプローラーを起動する
+Start-Process explorer
+
+# エクスプローラーのウィンドウが開くまで待つ
+Start-Sleep -Seconds 2
+
+# 「検索」ボックスにキーワードを入力する
+$searchBox = Get-UIAControl -Name "検索ボックス"
+$searchBox.ValuePattern.SetValue("test.txt")
+
+# 検索ボタンをクリックする
+$searchButton = Get-UIAControl -Name "検索する"
+$searchButton.DoClick()
+
+# 検索結果を表示する
+$searchResult = Get-UIAWindow -Name "検索結果"
+$searchResult.SetFocus()
+
+# エクスプローラーを閉じる
+Stop-Process -Name explorer
+ブラウザでWebページを操作する
+powershell
+Copy code
+# UI Automationのアセンブリを読み込む
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Automation
+
+# Chromeを起動する
+Start-Process chrome "https://www.google.com"
+
+# Chromeのウィンドウが開くまで待つ
+Start-Sleep -Seconds 2
+
+# Googleの検索ボックスにキーワードを入力する
+$searchBox = Get-UIAControl -Name "検索"
+$searchBox.ValuePattern.SetValue("Powershell")
+
+# Enterキーを押して検索する
+$enterKey = [System.Windows.Forms.SendKeys]::new()
+$enterKey.SendWait("{ENTER}")
+
+# 検索結果を表示する
+$searchResult = Get-UIAControl -Name "Powershell - Google 検索"
+$searchResult.SetFocus()
+
+# Chromeを閉じる
+Stop-Process -Name chrome
+これらの例は、UI Automationを使用したWindowsアプリケーションの自動化の一例です。UI Automationは、WindowsのGUIアプリケーションの自動化に非常に役立つため、多くのシナリオで使用されます。
+
+
+
+
+
+Regenerate response
+
+ChatGPT Mar 14 Version. Free Research Preview. Our goal is to make AI systems more natural and safe to interact with. Your feedback will help us improve.
+New chat
+PowershellでGoogle検索 (Powershellで検索)
+
+
+New chat
+New chat
+Clear conversations
+Upgrade to Plus
+NEW
+Dark mode
+Updates & FAQ
+Log out

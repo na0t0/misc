@@ -1,0 +1,14 @@
+Chromeを開きGoogle検索で「ChatGTP」を検索するPowershellスクリプトを作ってください。
+
+
+# Chromeのパス
+$chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+
+# Google検索のURL
+$searchUrl = "https://www.google.com/search?q="
+
+# 検索キーワード
+$searchKeyword = "ChatGTP"
+
+# Chromeを起動し、Google検索でChatGTPを検索する
+& $chromePath $searchUrl$searchKeyword

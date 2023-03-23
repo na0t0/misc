@@ -1,0 +1,66 @@
+Chromeを開きGoogle検索で「ChatGTP」を検索するExcel VBAスクリプトを作ってください。
+
+
+
+以下は、Excel VBAを使用してChromeを開いて「ChatGPT」をGoogle検索するスクリプトの例です。スクリプトを実行する前に、ChromeDriverをダウンロードしてインストールする必要があります。
+
+Sub GoogleSearch()
+    
+    ' Chromeのパスを設定
+    Dim chromePath As String
+    chromePath = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    
+    ' Chromeを起動
+    Dim chromeOptions As New Selenium.ChromeOptions
+    chromeOptions.binary_location = chromePath
+    Dim driver As New Selenium.ChromeDriver
+    driver.Start chromeOptions
+    
+    ' Googleにアクセス
+    driver.Get "https://www.google.com/"
+    
+    ' 検索ボックスに「ChatGPT」と入力して検索する
+    Dim searchBox As Selenium.WebElement
+    Set searchBox = driver.FindElementByXPath("//input[@name='q']")
+    searchBox.SendKeys "ChatGPT"
+    searchBox.Submit
+    
+    ' Chromeを終了
+    driver.Quit
+    
+End Sub
+
+
+
+このスクリプトでは、SeleniumのChromeドライバーを使用して、Chromeを制御しています。Googleにアクセスし、検索ボックスに「ChatGPT」と入力して検索します。最後に、Chromeを終了します。注意してください：スクリプトを実行する前に、SeleniumのChromeドライバーをダウンロードして、Excel VBAに参照できる場所に置いてください。
+
+
+
+
+
+
+
+Seleniumを使わずに、Chromeを開きGoogle検索で「ChatGTP」を検索するExcel VBAスクリプトを作ってください。
+
+Sub GoogleSearch()
+    
+    ' Edgeを開く
+    Dim Edge As Object
+    Set Edge = CreateObject("Edge.Application")
+    Edge.Visible = True
+    Edge.navigate "https://www.google.com/"
+    
+    ' ページが完全に読み込まれるまで待つ
+    Do While Edge.Busy Or Edge.readyState <> 4
+        DoEvents
+    Loop
+    
+    ' 検索ボックスに「Playwright」と入力して検索する
+    Edge.document.getElementById("lst-ib").Value = "Playwright"
+    Edge.document.getElementById("lst-ib").Focus
+    Edge.document.getElementById("lst-ib").Submit
+    
+End Sub
+
+
+

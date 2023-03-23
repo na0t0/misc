@@ -1,0 +1,29 @@
+特定のフォルダに仕分けられたメールに添付ファイルがあれば、指定のフォルダに保存するOutlook VBAスクリプトを書いてください。
+
+
+
+Sub SaveAttachments()
+    
+    ' 検索するフォルダーを指定する
+    Dim inbox As Outlook.Folder
+    Set inbox = Application.GetNamespace("MAPI").Folders("メールボックス - YourEmail@Address.com").Folders("仕分けられたメール")
+    
+    ' 添付ファイルを保存するフォルダーを指定する
+    Dim saveFolder As String
+    saveFolder = "C:\Attachments\"
+    
+    ' 仕分けられたメール内の各メールに対して処理を実行する
+    Dim mail As Outlook.MailItem
+    Dim attachment As Outlook.Attachment
+    For Each mail In inbox.Items
+        ' メールに添付ファイルがあるかどうかをチェックする
+        If mail.Attachments.Count > 0 Then
+            ' 添付ファイルがある場合は、各添付ファイルを保存する
+            For Each attachment In mail.Attachments
+                ' 添付ファイルを指定のフォルダーに保存する
+                attachment.SaveAsFile saveFolder & attachment.FileName
+            Next attachment
+        End If
+    Next mail
+    
+End Sub
