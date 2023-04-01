@@ -1,0 +1,58 @@
+import win32com.client
+import datetime
+
+def show_free_time():
+    # Outlook アプリケーションの初期化
+    outlook = win32com.client.Dispatch("Outlook.Application")
+    ns = outlook.GetNamespace("MAPI")
+
+    # 宛先の設定
+    recipients = ["A", "B", "C"]
+    olRecips = [ns.CreateRecipient(r) for r in recipients]
+    for olRecip in olRecips:
+        olRecip.Resolve()
+
+    # カレンダーフォルダーの取得
+    olCalFolder = ns.GetDefaultFolder(9)
+
+    # 現在の日付と時間の取得
+    now = datetime.datetime.now()
+
+    # 検索期間の設定
+    start = now.date()
+    end = start + datetime.timedelta(days=1)
+
+    # 空き時間帯を検索
+    current = start
+    free_times = []
+    while current < end:
+        free_start = current
+        free_end = free_start + datetime.timedelta(minutes=30)
+
+        # 予定の検索
+        filter = "[Start] >= '{0}' AND [End] <= '{1}'".format(free_start, free_end)
+        for olRecip in olRecips:
+            filter += " AND [To] != '{0}' AND [CC] != '{0}'".format(olRecip.Address)
+        appointments = olCalFolder.Items.Restrict(filter)
+
+        # 空き時間帯を表示
+        if not appointments:
+            free_times.append((free_start, free_end))
+
+        current += datetime.timedelta(minutes=30)
+
+    # 結果の表示
+    if free_times:
+        for start, end in free_times:
+            print("Free time: {0} - {1}".format(start.time(), end.time()))
+    else:
+        print("No free time found.")
+
+    # オブジェクトの解放
+    olRecips = None
+    olCalFolder = None
+    ns = None
+    outlook = None
+
+if __name__ == "__main__":
+    show_free_time()
