@@ -1,0 +1,34 @@
+StableLM-Tuned-Alpha-7b Chat
+Duplicate SpaceDuplicate the Space to skip the queue and run in a private space
+Chatbot
+Hello, could you give me a Powershell script could login remote pc via remote desktop?
+Sure! Here’s a PowerShell script that will do the login to a remote Windows computer using Remote Desktop:
+
+# Specify the remote computer name and credentials
+$r = "YOUR_REMOTE_NAME_HERE"
+$cred = New-Object System.Management.Automation.PSCredential($r.User, $r.Password)
+
+# Connect to the remote computer
+Connect-Msol -Credential $cred
+
+# Run PowerShell commands on the remote computer
+(Get-Host).Name
+Set-Location
+(Write-Host "Logging in to remote computer...")
+Start-Process -FilePath "msiexec.exe"
+Start-Sleep -Milliseconds 1000
+(Get-Childitem -Path \\$r\c$\windows\system32 -Filter *.dat).dat -recurse | Select-Object "Display Name")
+
+Stop-Process -Force -Timeout 5
+(Write-Host "Logging out of remote computer...")
+Disconnect-Msol
+Note that the Connect-Msol cmdlet is used to authenticate with the remote machine, and the Start-Process cmdlet is used to run PowerShell commands on the remote computer. The Get-Childitem -Path \\$r\c$\windows\system32 -Filter *.dat command retrieves the log file for the remote computer, which contains information about its current state and how it’s been configured.
+
+The Write-Host cmdlet is used to display messages on the remote computer, and the Start-Process cmdlet is used to execute PowerShell commands on the remote computer. The Start-Sleep cmdlet is used to perform a “keep-alive” process on the remote computer when it’s not responsive, in order to avoid going to sleep without displaying progress. Finally, the Disconnect-Msol cmdlet is used to disconnect from the remote computer.
+
+Chat Message Box
+送信
+クリア
+Use via API
+·
+Built with Gradiologo
