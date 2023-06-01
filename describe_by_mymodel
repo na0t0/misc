@@ -1,0 +1,11 @@
+cfg = Config()
+checkpoint_path = "/home/whisper/content/aaa.ckpt"
+state_dict = torch.load(checkpoint_path)
+state_dict = state_dict['state_dict']
+whisper_model = WhisperModelModule(cfg)
+whisper_model.eval()
+whisper_model.freeze()
+whisper_model.load_state_dict(state_dict)
+wavdata= whisper.load_audio(f"/home/whisper/aaa.wav")
+result = whisper_model.model.transcribe(wavdata, verbose=True, temperature=0.8, language="ja")
+#print(result["text"])
