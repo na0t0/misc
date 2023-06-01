@@ -1,0 +1,9 @@
+# チェックポイントの出力設定です
+# とりあえず、全て出力するようにしています
+checkpoint_callback = ModelCheckpoint(
+    dirpath=f"{check_output_dir}/checkpoint",
+    filename="checkpoint-{epoch:04d}",
+    save_top_k=-1 # all model save
+)
+
+callback_list = [checkpoint_callback, LearningRateMonitor(logging_interval="epoch")]
