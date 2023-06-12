@@ -1,0 +1,5 @@
+from datasets import DatasetDict, Dataset
+common_voice = DatasetDict()
+fileList = ["test/tsukuyomi1.wav", "test/tsukuyomi2.wav"]
+sentenceList = ["こんにちは。今日は新しいAIエンジンであるailia SDKを紹介します。ailia SDKは高速なAI推論エンジンです。", "コア技術"]
+common_voice["train"] = Dataset.from_dict({"audio": fileList, "sentence": sentenceList}).cast_column("audio", Audio(sampling_rate=16000))
